@@ -1,35 +1,26 @@
 import logging
-from datetime import datetime
 import os
-import pandas as pd
-import shutil
-
-"""
-Creating here TIMESTAMP
-"""
 from datetime import datetime
-TIMESTAMP = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-
+# Creating logs directory to store log in files
 LOG_DIR = "logs"
+LOG_DIR = os.path.join(os.getcwd(), LOG_DIR)
 
-
-def get_log_file_name():
-    return f"log_{TIMESTAMP}.log"
-
-
-LOG_FILE_NAME = get_log_file_name()
-
-if os.path.exists(LOG_DIR):
-    shutil.rmtree(LOG_DIR)
+# Creating LOG_DIR if it does not exists.
 os.makedirs(LOG_DIR, exist_ok=True)
 
-LOG_FILE_PATH = os.path.join(LOG_DIR, LOG_FILE_NAME)
 
-logging.basicConfig(filename=LOG_FILE_PATH,
-                    filemode="w",
-                    format='[%(asctime)s] \t%(levelname)s \t%(lineno)d \t%(filename)s \t%(funcName)s() \t%(message)s',
-                    level=logging.INFO
-                    )
+# Creating file name for log file based on current timestamp
+CURRENT_TIME_STAMP = f"{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}"
+file_name = f"log_{CURRENT_TIME_STAMP}.log"
 
-logger = logging.getLogger("ImageSim")
+# Creating file path for projects.
+log_file_path = os.path.join(LOG_DIR, file_name)
+
+
+logging.basicConfig(
+    filename=log_file_path,
+    filemode="w",
+    format="[%(asctime)s] %(name)s - %(levelname)s - %(message)s",
+    level=logging.INFO,
+)
